@@ -1,12 +1,11 @@
 <?php
 $host = "localhost";
-$username = "root";
-$password = "";
-$database = "user_auth"; // we'll create this database in phpMyAdmin
+$user = "root";
+$pass = "";
+$db = "crud_app";
 
-$conn = new mysqli($host, $username, $password, $database);
+$conn = new mysqli($host, $user, $pass, $db);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
