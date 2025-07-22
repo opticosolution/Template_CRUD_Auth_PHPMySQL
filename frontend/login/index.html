@@ -3,16 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD App Using PHP+MySql</title>
+    <title>Login Form</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
 
 <body>
-   <div id="login">
-    
-   </div>
+    <div id="main">
+    <div class="container">
+        <h2>Login Form</h2>
+
+        <form id="loginForm">
+            <input type="text" id="mobile" placeholder="Mobile Number" required />
+            <br>
+            <input type="password" id="password" placeholder="Password" required />
+            <br>            
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="../register/index.html">Register</a></p>
+    </div>
+</div>
+    <script src="script.js"></script>
 </body>
 
 </html>
