@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $user = "root";
-$pass = "";
+$pass = "TigerDB@Nayan77";
 $db = "crud_app";
 
 $conn = new mysqli($host, $user, $pass, $db);
