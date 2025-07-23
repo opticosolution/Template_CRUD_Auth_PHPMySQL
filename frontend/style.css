@@ -12,10 +12,71 @@ html, body{
 #main{
     height: 100vh;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: rgb(40, 12, 12);
+    background-color: rgb(42, 25, 128);
     color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
+
+h1{
+    font-size: 35px;
+    /* text-decoration:underline; */
+    font-family: serif;
+    /* border: 1px solid #ffffff; */
+}
+
+
+.first-layout{
+    /* background-color: red; */
+    position: absolute;
+    border: 1px solid white;
+    height: 89%;
+    padding: 100px 50px;
+    margin-top: 18px;
+
+}
+
+.first-layout input{
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 7px 50px;
+    /* gap: 10px; */
+    margin: 10px;
+    color: white;
+    border-radius: 20px;
+    outline: none;
+}
+
+
+
+.second-layout{
+    position: absolute;
+    left: 50%;
+    padding: 15px;
+    margin-top: 18px;
+     height: 90%;
+
+}
+
+table{
+    border-radius: 8px;
+    padding: 10px 30px;
+}
+
+table, th, td {
+    border: 1px solid rgb(255, 255, 255);
+    border-collapse: collapse;
+    padding: 5px 10px;
+  }
+
+  .main-heading th{
+    padding: 5px 10px;
+  }
+
+  .edit, .delete{
+    background-color: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }

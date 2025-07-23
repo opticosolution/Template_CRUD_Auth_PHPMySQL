@@ -1,15 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD Application</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD Application</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div id="main">
-    <h1>Hello World</h1>
+    <h1>Welcome User </h1>
+
+    <!-- First Layout -->
+    <div class="first-layout">
+      <form id="emp-form">
+        <div class="name1">
+          <label for="emp-name">Emp Name : </label>
+          <input type="text" id="name" placeholder="Enter Name" required />
+        </div>
+
+        <div class="emp-code">
+          <label for="code">Emp Code : </label>
+          <input type="text" name="" id="code" placeholder="Enter Name" required />
+        </div>
+
+        <input type="submit" value="Add Data" class="btn">
+      </form>
+    </div>
+
+    <!-- Second Layout -->
+     <div class="second-layout">
+      <table class="table1">
+        <thead>
+          <tr class="main-heading">
+            <th>ID</th>
+            <th>Emp Name</th>
+            <th>Emp Code</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableBody">
+          <!-- <tr>
+            <td>1</td>
+            <td>Alice</td>
+            <td>ABC123</td>
+            <td><button id="edit"><i id="edit" class="ri-edit-line"></i></button></td>
+            <td><button id="delete"><i id="delete" class="ri-chat-delete-line"></i></button></td>
+          </tr> -->
+        </tbody>
+      </table>
+    
+     </div>
   </div>
+  
+  <script src="script.js"></script>
 </body>
+
 </html>
