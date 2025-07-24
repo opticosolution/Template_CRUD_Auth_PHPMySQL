@@ -9,7 +9,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
     // Send data to backend
     try {
-      const res = await fetch("http://localhost/Template_CRUD_Auth_PHPMySQL/backend/config/register.php", {
+      const res = await fetch("http://208.91.199.11:3306/Template_CRUD_Auth_PHPMySQL/backend/config/register.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

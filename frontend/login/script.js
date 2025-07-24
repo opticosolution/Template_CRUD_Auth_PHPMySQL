@@ -8,7 +8,9 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
 
   console.log("print data : ", data);
 
-  fetch("http://localhost/Template_CRUD_Auth_PHPMySQL/backend/config/login.php", {
+  // fetch("http://localhost/Template_CRUD_Auth_PHPMySQL/backend/config/login.php", {
+  
+    fetch("http://208.91.199.11:3306/Template_CRUD_Auth_PHPMySQL/backend/config/login.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)

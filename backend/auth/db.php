@@ -1,8 +1,9 @@
 <?php
-$host = 'localhost';
-$dbname = 'crud_app'; 
-$username = 'root';
-$password = 'TigerDB@Nayan77'; 
+// $host = 'localhost';
+$host = 'http://208.91.199.11:3306/';
+$dbname = 'panditg_db'; 
+$username = 'test_phpmysql';
+$password = 'Test@Intern123'; 
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
