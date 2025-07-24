@@ -1,23 +1,21 @@
 <?php
 header("Content-Type: application/json");
-error_reporting(0); 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 include("../auth/db.php");
 
-// Fetch data
-$sql = "SELECT id, name, emp_code FROM employees";
-$result = $conn->query($sql);
+try {
+    $stmt = $conn->prepare("SELECT id, name, emp_code FROM employees");
+    $stmt->execute();
+    $employees = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$data = [];
-
-if ($result && $result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $data[] = $row;
-  }
-  echo json_encode(["status" => "success", "data" => $data]);
-} else {
-  echo json_encode(["status" => "success", "data" => []]); // No rows, but still success
+    if ($employees && count($employees) > 0) {
+        echo json_encode(["status" => "success", "data" => $employees]);
+    } else {
+        echo json_encode(["status" => "success", "data" => [], "message" => "No records found"]);
+    }
+} catch (PDOException $e) {
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
-
-$conn->close();
 ?>

@@ -2,25 +2,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("emp-form");
     const tbody = document.querySelector(".table1 tbody");
     const submit_btn = document.querySelector(".btn");
-  
-    let editingId = null; // For tracking update mode
-  
-    // Load data from DB
-    loadDataFromDB();
-  
+    const loadDataBtn = document.querySelector("#loadData");
+
+    let editingId = 0;
+
+    printAllEmployees();
+
     // Handle form submit (add or update)
     form.addEventListener("submit", function (e) {
-      e.preventDefault();
+      e.preventDefault();  //for stoping browser defaulting behaviour
   
       const name = document.getElementById("name").value.trim();
       const code = document.getElementById("code").value.trim();
-  
+
+      console.log("print name : ", name, "print code : ", code);
+      
+
       if (name === "" || code === "") {
         alert("Both fields are required!");
         return;
       }
   
-      if (editingId) {
+      if (editingId !== 0) {
         // UPDATE existing employee
         fetch("../backend/crud/update.php", {
           method: "POST",
@@ -32,17 +35,19 @@ document.addEventListener("DOMContentLoaded", function () {
             if (data.status === "success") {
               alert("Employee updated successfully");
               form.reset();
-              editingId = null;
-              submit_btn.textContent = "Add";
-              loadDataFromDB(); // Reload updated data
-            } else {
+              editingId = 0;
+              submit_btn.value = "Add Data";
+              printAllEmployees();
+            } 
+            else {
               alert("Update failed: " + data.message);
             }
           })
           .catch((err) => {
             console.error("Update Error:", err);
           });
-      } else {
+      } 
+      else {
         // ADD new employee
         fetch("../backend/crud/add.php", {
           method: "POST",
@@ -52,12 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((res) => res.json())  
           .then((data) => {
             //   print data
-              console.log(data)        
+              console.log("print data from --// ADD new employee ",data)        
             if (data.status === "success") {
               alert("Employee added successfully");
-              console.log("Employee added successfully");
+              console.log("Employee added successfully(line:67)");
               form.reset();
-              loadDataFromDB();
+              // loadDataFromDB();
+              printAllEmployees();
             } else {
                 console.log("Insert failed: " + data.message);                
               alert("Insert failed: " + data.message);
@@ -68,79 +74,95 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       }
     });
-  
-    // Load and display all employees
-    function loadDataFromDB() {
-      const tbody = document.querySelector("tbody"); // Make sure this matches your HTML
-    
+
+
+    // Show data on page loading
+    function printAllEmployees() {
       fetch("../backend/crud/show.php")
         .then((res) => res.json())
         .then((data) => {
-          console.log("Fetch data : ", data);
+          console.log("Raw data from show.php:", data);
     
-          tbody.innerHTML = ""; // Clear old rows
+          // Clear existing table rows first
+          tbody.innerHTML = "";
     
-          if (data.status === "success") {
-            if (data.data.length === 0) {
-              tbody.innerHTML = "<tr><td colspan='5'>No records found</td></tr>";
-            }
+          if (data.status === "success" && data.data.length > 0) {
+            data.data.forEach((item, index) => {
+              const tr = document.createElement("tr");
     
-            data.data.forEach((item) => {
-              const row = document.createElement("tr");
-              row.innerHTML = `
+              tr.innerHTML = `
                 <td>${item.id}</td>
                 <td>${item.name}</td>
                 <td>${item.emp_code}</td>
-                <td><button class="edit"><i class="ri-edit-line"></i></button></td>
-                <td><button class="delete"><i class="ri-chat-delete-line"></i></button></td>
+                <td><button class="edit-btn" data-id="${item.id}" data-name="${item.name}" data-code="${item.emp_code}"><i class="ri-edit-line"></i></button></td>
+                <td><button class="delete-btn" data-id="${item.id}"><i class="ri-chat-delete-line"></i></button></td>
               `;
     
-              // Edit button logic
-              row.querySelector(".edit").addEventListener("click", () => {
-                document.getElementById("name").value = item.name;
-                document.getElementById("code").value = item.emp_code;
-                editingId = item.id;
-                submit_btn.textContent = "Update";
-              });
-    
-              // Delete button logic
-              row.querySelector(".delete").addEventListener("click", () => {
-                if (confirm("Are you sure you want to delete this entry?")) {
-                  deleteEmployee(item.id);
-                }
-              });
-    
-              tbody.appendChild(row);
+              tbody.appendChild(tr);
             });
+  
+            // call function
+            handleEditButtons();
+            handleDeleteButtons();
+
           } else {
-            console.error("Show Error:", data.message);
+            // No records found
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td colspan="5" style="text-align:center; color: gray;">No records found</td>`;
+            tbody.appendChild(tr);
           }
         })
         .catch((err) => {
-          console.error("Fetch Error (show):", err);
+          console.error("Error fetching all employees:", err);
         });
     }
     
-  
-    // Delete employee
-    function deleteEmployee(id) {
-      fetch("../backend/crud/delete.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: id }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === "success") {
-            alert("Deleted successfully");
-            loadDataFromDB();
-          } else {
-            alert("Delete failed: " + data.message);
-          }
+
+
+ // Delete handler
+ function handleDeleteButtons() {
+  const deleteButtons = document.querySelectorAll(".delete-btn");
+  deleteButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-id");
+
+      if (confirm("Are you sure you want to delete this employee?")) {
+        fetch("../backend/crud/delete.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: id }),
         })
-        .catch((err) => {
-          console.error("Delete Error:", err);
-        });
-    }
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              alert("Employee deleted successfully");
+              printAllEmployees();
+            } else {
+              alert("Delete failed: " + data.message);
+            }
+          })
+          .catch((err) => console.error("Delete Error:", err));
+      }
+    });
   });
-  
+}
+
+// Edit handler
+function handleEditButtons() {
+  const editButtons = document.querySelectorAll(".edit-btn");
+  editButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-id");
+      const name = btn.getAttribute("data-name");
+      const code = btn.getAttribute("data-code");
+
+      // Fill form
+      document.getElementById("name").value = name;
+      document.getElementById("code").value = code;
+
+      editingId = id;
+      submit_btn.value = "Update Data"; // Change button text
+    });
+  });
+}
+});
