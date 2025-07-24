@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const name = document.getElementById("name").value.trim();
       const code = document.getElementById("code").value.trim();
 
-      console.log("print name : ", name, "print code : ", code);
+      // console.log("print name : ", name, "print code : ", code);
       
 
       if (name === "" || code === "") {
@@ -57,12 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((res) => res.json())  
           .then((data) => {
             //   print data
-              console.log("print data from --// ADD new employee ",data)        
+              // console.log("print data from --// ADD new employee ",data)        
             if (data.status === "success") {
               alert("Employee added successfully");
               console.log("Employee added successfully(line:67)");
               form.reset();
-              // loadDataFromDB();
               printAllEmployees();
             } else {
                 console.log("Insert failed: " + data.message);                
@@ -81,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch("../backend/crud/show.php")
         .then((res) => res.json())
         .then((data) => {
-          console.log("Raw data from show.php:", data);
+          // console.log("Raw data from show.php:", data);
     
           // Clear existing table rows first
           tbody.innerHTML = "";
